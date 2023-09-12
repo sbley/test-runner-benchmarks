@@ -25,9 +25,16 @@ jobs:
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.17.0/hyperfine_1.17.0_amd64.deb
           sudo dpkg -i hyperfine_1.17.0_amd64.deb
       
-      - name: Run Tests
+      - name: Run Tests Cold
         run: |
-          hyperfine --warmup 1 \
+          hyperfine --runs 5 \
+          'yarn workspace jest test' \
+          'yarn workspace vitest test' \
+          'yarn workspace vitest test --isolate=false'
+
+      - name: Run Tests Warm
+        run: |
+          hyperfine --warmup 1 --runs 5 \
           'yarn workspace jest test' \
           'yarn workspace vitest test' \
           'yarn workspace vitest test --isolate=false'
