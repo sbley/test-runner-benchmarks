@@ -13,7 +13,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '18'
           cache: 'yarn'
       
       - name: Install
@@ -25,16 +25,9 @@ jobs:
           wget https://github.com/sharkdp/hyperfine/releases/download/v1.17.0/hyperfine_1.17.0_amd64.deb
           sudo dpkg -i hyperfine_1.17.0_amd64.deb
       
-      - name: Install bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: canary
-
-      - name: Run
+      - name: Run Tests
         run: |
           hyperfine --warmup 1 \
-          'yarn workspace jasmine test' \
           'yarn workspace jest test' \
-          'yarn workspace vitest test --experimentalVmThreads' \
-          'yarn workspace vitest test --isolate=false' \
-          'yarn workspace bun test'
+          'yarn workspace vitest test' \
+          'yarn workspace vitest test --isolate=false'
